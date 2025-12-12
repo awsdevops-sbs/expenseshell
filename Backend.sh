@@ -4,6 +4,7 @@ dnf module enable nodejs:20 -y &>>/tmp/log.txt
 dnf install nodejs -y &>>/tmp/log.txt
 
 cp backend.service /etc/systemd/system/backend.service
+
 rm -rf /app/* &>>/tmp/log.txt
 #useradd expense &>>/tmp/log.txt
 
