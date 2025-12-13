@@ -1,5 +1,5 @@
 source common.sh
-component=frontend
+component=backend
 app_dir=/app
 mysql_password=$1
 

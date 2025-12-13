@@ -3,7 +3,7 @@ component=frontend
 app_dir=/usr/share/nginx/html/*
 
 Print_Task_Heading "Install Nginx"
- dnf install nginx -y &>>$Log
+dnf install nginx -y &>>$Log
 check_status $?
 
 Print_Task_Heading "Start Nginx service"
