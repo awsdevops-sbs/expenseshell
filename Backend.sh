@@ -72,3 +72,5 @@ check_status $?
 
 Print_Task_Heading "Load Sechma"
 mysql -h 172.31.71.114 -uroot -p${mysql_password} < /app/schema/backend.sql
+
+check_status $?
