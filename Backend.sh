@@ -37,7 +37,7 @@ cp backend.service /etc/systemd/system/backend.service
 check_status $?
 
 
-Print_Task_Heading "Clear old content"
+Print_Task_Heading "Clean old content"
 rm -rf /app/* &>>$Log
 check_status $?
 
@@ -51,7 +51,7 @@ check_status $?
 
 cd /app &>>$Log
 
-Print_Task_Heading "Unzip App content"
+Print_Task_Heading "Extract App content"
 unzip /tmp/backend.zip &>>$Log
 check_status $?
 
