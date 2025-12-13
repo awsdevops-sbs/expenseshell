@@ -38,7 +38,7 @@ check_status $?
 
 
 Print_Task_Heading "Clean old content"
-rm -rf /app/* &>>$Log
+rm -rf /app &>>$Log
 check_status $?
 
 Print_Task_Heading "Create App Directory "
