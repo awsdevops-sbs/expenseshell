@@ -1,31 +1,77 @@
-dnf module disable nodejs -y &>>/tmp/log.txt
-dnf module enable nodejs:20 -y &>>/tmp/log.txt
+source common.sh
 
-dnf install nodejs -y &>>/tmp/log.txt
+mysql_password=$1
 
+if [ -z "${mysql_password}" ]; then
+
+  Print_Task_Heading "Password Missing"
+  exit 1
+   fi
+
+Print_Task_Heading "Disable default Nodejs version"
+dnf module disable nodejs -y &>>$Log
+check_status $?
+
+Print_Task_Heading "Enable nodejs module for v20  "
+dnf module enable nodejs:20 -y &>>$Log
+check_status $?
+
+Print_Task_Heading "Install NodeJS"
+dnf install nodejs -y &>>$Log
+check_status $?
+
+Print_Task_Heading "Add Application User"
+
+id expense &>>$Log
+
+if [ $? -eq 0 ]; then
+
+  Print_Task_Heading "User already exist"
+  else
+    Print_Task_Heading "Adding application user"
+   useradd expense &>>$Log
+
+   fi
+
+check_status $?
+
+Print_Task_Heading "Copy Backend service file"
 cp backend.service /etc/systemd/system/backend.service
-
-rm -rf /app/* &>>/tmp/log.txt
-#useradd expense &>>/tmp/log.txt
-
-mkdir /app &>>/tmp/log.txt
+check_status $?
 
 
-curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip &>>/tmp/log.txt
-cd /app &>>/tmp/log.txt
+Print_Task_Heading "Clear old content"
+rm -rf /app/* &>>$Log
+check_status $?
 
-unzip /tmp/backend.zip &>>/tmp/log.txt
+Print_Task_Heading "Create App Directory "
+mkdir /app &>>$Log
+check_status $?
 
+Print_Task_Heading "Download App Content"
+curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip &>>$Log
+check_status $?
 
-cd /app &>>/tmp/log.txt
-npm install &>>/tmp/log.txt
+cd /app &>>$Log
 
+Print_Task_Heading "Unzip App content"
+unzip /tmp/backend.zip &>>$Log
+check_status $?
 
-systemctl daemon-reload &>>/tmp/log.txt
+Print_Task_Heading "Download NodeJS Dependencies"
+cd /app &>>$Log
+npm install &>>$Log
+check_status $?
 
-systemctl enable backend &>>/tmp/log.txt
-systemctl start backend &>>/tmp/log.txt
+Print_Task_Heading "Start backend service"
+systemctl daemon-reload &>>$Log
+systemctl enable backend &>>$Log
+systemctl start backend &>>$Log
+check_status $?
 
-dnf install mysql -y
+Print_Task_Heading "Install mysql Client"
+dnf install mysql -y &>>$Log
+check_status $?
 
-mysql -h 172.31.71.114 -uroot -pExpenseApp@1 < /app/schema/backend.sql
+Print_Task_Heading "Load Sechma"
+mysql -h 172.31.71.114 -uroot -p${mysql_password} < /app/schema/backend.sql

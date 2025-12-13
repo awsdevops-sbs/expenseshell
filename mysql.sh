@@ -1,6 +1,29 @@
-dnf install mysql-server -y &>>/tmp/log.txt
+source common.sh
 
-systemctl enable mysqld &>>/tmp/log.txt
-systemctl start mysqld &>>/tmp/log.txt
+mysql_password=$1
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>/tmp/log.txt
+
+if [ -z "${mysql_password}" ]; then
+
+  Print_Task_Heading "Password Missing"
+  exit 1
+   fi
+
+
+Print_Task_Heading "Install mysql server"
+dnf install mysql-server -y &>>$Log
+check_status $?
+
+Print_Task_Heading "Start mysql server"
+systemctl enable mysqld &>>$Log
+systemctl start mysqld &>>$Log
+check_status $?
+
+Print_Task_Heading "Connect Mysql server"
+echo 'show databases' | mysql -h 172.31.71.114 -uroot -p${mysql_password} &>>$Log
+
+if [ $? -ne 0 ]; then
+
+mysql_secure_installation --set-root-pass ${mysql_password} &>>$Log
+fi
+check_status $?
