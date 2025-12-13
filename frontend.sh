@@ -12,11 +12,7 @@ check_status $?
 
 app_pre
 
-Print_Task_Heading "Start Nginx service"
+Print_Task_Heading "Enable and reStart Nginx service"
 systemctl enable nginx &>>$Log
-systemctl start nginx &>>$Log
-check_status $?
-
-Print_Task_Heading "Restart nginx"
 systemctl restart nginx &>>$Log
 check_status $?
