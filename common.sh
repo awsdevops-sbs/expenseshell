@@ -13,7 +13,7 @@ check_status(){
 
   echo -e "\e[32mSuccess\e[0m" &>>$Log
     else
-  echo -e "\e[32mFail\e[0m" &>>$Log
+  echo -e "\e[31mFail\e[0m" &>>$Log
 
   exit 2
 
