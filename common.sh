@@ -27,7 +27,7 @@ app_pre(){
   check_status $?
 
   Print_Task_Heading "Download App Content"
-  curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-${component}-v2.zip &>>$Log
+  curl -o /tmp/${component}.zip https://expense-artifacts.s3.amazonaws.com/expense-${component}-v2.zip &>>$Log
   check_status $?
 
   Print_Task_Heading "Extract App content"
