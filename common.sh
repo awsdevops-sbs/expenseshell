@@ -11,9 +11,9 @@ check_status(){
 
   if [ $1 -eq 0 ]; then
 
-  echo -e "\e[31m Success [0m\e" &>>$Log
+  echo -e "\e[32mSuccess\e[0m" &>>$Log
     else
-  echo -e "\e[32m Fail [0m\e" &>>$Log
+  echo -e "\e[32mFail\e[0m" &>>$Log
 
   exit 2
 
