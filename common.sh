@@ -18,7 +18,6 @@ check_status(){
 
 app_pre(){
 
-
   Print_Task_Heading "Clean old content"
   rm -rf ${app_dir} &>>$Log
   check_status $?
@@ -31,13 +30,9 @@ app_pre(){
   curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-${component}-v2.zip &>>$Log
   check_status $?
 
-
-
   Print_Task_Heading "Extract App content"
-   cd ${app_dir} &>>$Log
+  cd ${app_dir} &>>$Log
   unzip /tmp/${component}.zip &>>$Log
   check_status $?
-
-
 
 }
