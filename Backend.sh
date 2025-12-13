@@ -56,7 +56,7 @@ Print_Task_Heading "Install mysql Client"
 dnf install mysql -y &>>$Log
 check_status $?
 
-Print_Task_Heading "Load Sechma"
-mysql -h mysql-dev.awsdevops.sbs -uroot -p${mysql_password} < /app/schema/backend.sql
+Print_Task_Heading "Load Schema"
+mysql -h mysql-dev.awsdevops.sbs -uroot -p${mysql_password} < /app/schema/backend.sql &>>$Log
 
 check_status $?
