@@ -1,4 +1,6 @@
 source common.sh
+component=frontend
+app_dir=/usr/share/nginx/html/*
 
 Print_Task_Heading "Install Nginx"
  dnf install nginx -y &>>$Log
@@ -9,25 +11,13 @@ Print_Task_Heading "Start Nginx service"
  systemctl start nginx &>>$Log
 check_status $?
 
-Print_Task_Heading "Clean old app content"
- rm -rf /usr/share/nginx/html/* &>>$Log
- check_status $?
-
- Print_Task_Heading "Download app content"
- curl -o /tmp/frontend.zip https://expense-artifacts.s3.amazonaws.com/expense-frontend-v2.zip &>>$Log
-check_status $?
+app_pre
 
 Print_Task_Heading "Copy Expense config "
 cp expense.conf /etc/nginx/default.d/expense.conf &>>$Log
 check_status $?
 
-Print_Task_Heading "Extract app Content "
- cd /usr/share/nginx/html &>>$Log
- unzip /tmp/frontend.zip &>>$Log
-
-check_status $?
 
 Print_Task_Heading "Restart nginx"
- systemctl restart nginx &>>$Log
-
- check_status $?
+systemctl restart nginx &>>$Log
+check_status $?

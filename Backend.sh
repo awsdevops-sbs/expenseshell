@@ -1,5 +1,6 @@
 source common.sh
-
+component=frontend
+app_dir=/app
 mysql_password=$1
 
 if [ -z "${mysql_password}" ]; then
@@ -36,24 +37,9 @@ Print_Task_Heading "Copy Backend service file"
 cp backend.service /etc/systemd/system/backend.service
 check_status $?
 
+app_pre
 
-Print_Task_Heading "Clean old content"
-rm -rf /app &>>$Log
-check_status $?
 
-Print_Task_Heading "Create App Directory "
-mkdir /app &>>$Log
-check_status $?
-
-Print_Task_Heading "Download App Content"
-curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip &>>$Log
-check_status $?
-
-cd /app &>>$Log
-
-Print_Task_Heading "Extract App content"
-unzip /tmp/backend.zip &>>$Log
-check_status $?
 
 Print_Task_Heading "Download NodeJS Dependencies"
 cd /app &>>$Log
