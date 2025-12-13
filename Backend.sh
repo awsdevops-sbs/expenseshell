@@ -24,11 +24,8 @@ Print_Task_Heading "Add Application User"
 
 id expense &>>$Log
 
-if [ $? -eq 0 ]; then
+if [ $? -ne 0 ]; then
 
-  Print_Task_Heading "User already exist"
-  else
-    Print_Task_Heading "Adding application user"
    useradd expense &>>$Log
 
    fi
