@@ -16,7 +16,7 @@ systemctl start mysqld &>>$Log
 check_status $?
 
 Print_Task_Heading "Connect Mysql server"
-echo 'show databases' | mysql -h mysql-dev.awsdevops.sbs -uroot -p${mysql_password} &>>$Log
+echo 'show databases' | mysql -h mysql-dev.awsdevops16297.sbs -uroot -p${mysql_password} &>>$Log
 if [ $? -ne 0 ]; then
   mysql_secure_installation --set-root-pass ${mysql_password} &>>$Log
 fi
